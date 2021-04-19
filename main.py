@@ -1,56 +1,10 @@
 #!/usr/bin/python
 
 import pygame
-
-class player:
-    number = 1
-    def __init__(self, name):
-        self.name = name
-
-        if self.name == '':
-            self.name = 'Player{0}'.format(player.number)
-
-        self.symbol = lambda : ('X' if player.number % 2 else 'O')
-        self.symbol = self.symbol()
-        player.number += 1
-        self.points = 0
-
-def output(field):
-    for row in field:
-        line = ''
-
-        for column in row:
-            line += column
-
-        print(line)
-
-def draw(window, symbol, coordinates, color):
-    if symbol == 'X':
-        pygame.draw.line(window, color, (coordinates[0]-75,coordinates[1]-75), (coordinates[0]+75, coordinates[1]+75))
-        pygame.draw.line(window, color, (coordinates[0]+75,coordinates[1]-75), (coordinates[0]-75, coordinates[1]+75))
-
-    if symbol == 'O':
-        pygame.draw.circle(window, color, coordinates, 75, 1)
-
-def check_field(field):
-    for i in range(3):
-        if all(field[i][0] == j for j in (field[i][1], field[i][2])):
-            if field[i][0] != ' ':
-                return True
-
-        if all(field[0][i] == j for j in (field[1][i], field[2][i])):
-            if field[0][i] != ' ':
-                return True
-
-    if all(field[0][0] == j for j in (field[1][1], field[2][2])):
-        if field[0][0] != ' ':
-            return True
-
-    if all(field[2][0] == j for j in (field[1][1], field[0][2])):
-        if field[2][0] != ' ':
-            return True
-
-    return False
+from player import Player
+from output import output
+from draw import draw
+from check_field import check_field
 
 def main(game_counter, players):
 
@@ -106,8 +60,8 @@ def main(game_counter, players):
         pygame.display.update()
 
 if __name__ == '__main__':
-    p1 = player(input())
-    p2 = player(input())
+    p1 = Player(input())
+    p2 = Player(input())
     players = [p1, p2]
     loop = True
     game_counter = 0
